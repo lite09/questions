@@ -16,6 +16,7 @@ namespace questions
     {
         public RadioButton[] rb = new RadioButton[5];
         public Label[] lb = new Label[5];
+        public bool wait = true;
         public Form1()
         {
             InitializeComponent();
@@ -25,9 +26,9 @@ namespace questions
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
 
-            //login log = new login(this);
-            //log.Show();
-            //Hide();
+            login log = new login(this);
+            log.Show();
+            Hide();
 
             if (!Directory.Exists("data\\tests"))
             {
@@ -36,12 +37,17 @@ namespace questions
                 Close();
             }
 
-            functions.load_tests(this);
+            //functions.load_tests(this);
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            //Hide();
+            Hide();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            wait = false;
         }
     }
 }

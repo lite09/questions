@@ -97,26 +97,55 @@ namespace questions.classes
             return tests;
         }
 
-        public static void Live_test(List<test> live, Form1 f1) {
+        public static void Live_test(object ob) {
+            object[] inf = ob as object[];
+            List<test> live = (List<test>)inf[0];
+            Form1 f1 = (Form1)inf[1];
+            f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Show()));
             //for (int ki = 0; ki < live.Count; ki++)
             //{
             foreach (var q in live) {
-                int q_n;
-                //if(){ }
+                string[] s_q = { q.q_0, q.q_1, q.q_2, q.q_3, q.q_4 };
+                int q_n = s_q.Length;
+                f1.wait = true;
+                f1.tLP.Invoke((MethodInvoker)(() => f1.tLP.Controls.Clear()));
+                f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Controls.Clear()));
 
-                f1.rb[ki] = new RadioButton();
-                f1.rb[ki].Dock = DockStyle.Fill;
-                f1.tLP.Controls.Add(f1.rb[ki], 0, ki);
+                Label lb_q = new Label();
+                lb_q.Dock = DockStyle.Fill;
+                lb_q.TextAlign = ContentAlignment.MiddleCenter;
+                lb_q.ForeColor = Color.FromArgb(255, 0, 255, 150);
+                lb_q.Font = new Font("Times New Roman", 20, FontStyle.Bold);
+                lb_q.Text = q.question;
+                f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Controls.Add(lb_q)));
 
-                f1.lb[ki] = new Label();
-                f1.lb[ki].Dock = DockStyle.Fill;
-                f1.lb[ki].TextAlign = ContentAlignment.MiddleCenter;
-                f1.lb[ki].ForeColor = Color.FromArgb(255, 0, 255, 255);
-                f1.lb[ki].Font = new Font("Times New Roman", 15, FontStyle.Bold);
-                f1.lb[ki].Text = "sssssssssssssssssssssssssssssssssss";
-                f1.tLP.Controls.Add(f1.lb[ki], 1, ki);
+                for (int i = 0; i < s_q.Length; i++)
+                    if (s_q[i] == "")
+                    {
+                        q_n = i;
+                        break;
+                    }
 
-                Thread.Sleep(900);
+                for (int i = 0; i < q_n; i++)
+                {
+
+                    f1.rb[i] = new RadioButton();
+                    f1.rb[i].Dock = DockStyle.Fill;
+                    f1.tLP.Invoke((MethodInvoker)(() => f1.tLP.Controls.Add(f1.rb[i], 0, i)));
+
+                    f1.lb[i] = new Label();
+                    f1.lb[i].Dock = DockStyle.Fill;
+                    f1.lb[i].TextAlign = ContentAlignment.MiddleCenter;
+                    f1.lb[i].ForeColor = Color.FromArgb(255, 0, 255, 255);
+                    f1.lb[i].Font = new Font("Times New Roman", 15, FontStyle.Bold);
+                    f1.lb[i].Text = s_q[i];
+                    f1.tLP.Invoke((MethodInvoker)(() => f1.tLP.Controls.Add(f1.lb[i], 1, i)));
+                }
+                //f1.tLP.PerformLayout();
+                //return;
+                while (f1.wait)
+                    Thread.Sleep(90);
+
             }
     }
 
@@ -134,10 +163,19 @@ namespace questions.classes
                 f1.Controls.Add(h2);
                 h2.Location = new Point(Convert.ToInt32(x / 2 - h2.Width / 2), Convert.ToInt32(y / 7));
 
+            //  сетка для вопросов
+            f1.tLP_q.Width = x;
+            f1.tLP_q.Height = Convert.ToInt32(y / 5);
+            f1.tLP_q.Location = new Point(0, Convert.ToInt32(0 + (y * 0.25)));
+            f1.tLP_q.Hide();
+
+            //  сетка для вариантов ответов
             f1.tLP.Width = Convert.ToInt32(x / 1.13);
-            f1.tLP.Height = y / 2;
-            f1.tLP.Location = new Point(Convert.ToInt32(0 + (x * 0.05)), Convert.ToInt32(0 + (y * 0.36)));
+            f1.tLP.Height = Convert.ToInt32(y / 2.52);
+            f1.tLP.Location = new Point(Convert.ToInt32(0 + (x * 0.05)), Convert.ToInt32(0 + (y * 0.45)));
             //f1.tLP.
+
+            f1.bt.Location = new Point(x / 2 - f1.bt.Width / 2, y - 70);
 
             for (int i = 0; i < str_paths_tests.Length; i++)
             {
@@ -159,8 +197,12 @@ namespace questions.classes
                     h2.Location = new Point(Convert.ToInt32(x / 2 - (h2.Width / 2)), Convert.ToInt32(y / 7));
 
                     for (i = 0; i < str_paths_tests.Length; i++)
-                        if (str_paths_tests[i] == h2.Text)
-                            Live_test(tests[i], f1);
+                        if (Path.GetFileNameWithoutExtension(str_paths_tests[i]) == h2.Text)
+                        {
+                            object []ob = { tests[i], f1 };
+                            ThreadPool.QueueUserWorkItem(Live_test, ob);
+                            //Live_test(ob);
+                        }
                 };
             }
         }
@@ -168,51 +210,3 @@ namespace questions.classes
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*label3.Size = new Size(btn_lang, btn_h);
-label3.Location = new Point(width - label1.Size.Width - btn_lang, 0);
-label3.ForeColor = Color.FromArgb(255, 107, 107, 107);
-            label3.BackColor = Color.FromArgb(255, colr_i, colr_i, colr_i);
-            label3.AutoSize = false;
-            label3.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Regular);
-label3.TextAlign = ContentAlignment.MiddleRight;
-            label3.Text = "RU";
-            label3.Click += (s, i) =>
-            {
-                if (label3.Text == "EN")
-                {
-                    //   CultureInfo.CurrentCulture = new CultureInfo("ru-RU", false);
-                    InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("ru-RU"));
-                    label3.Text = "RU";
-                }
-                else
-                {
-                    //  CultureInfo.CurrentCulture = new CultureInfo("en-US", false);
-                    InputLanguage.CurrentInputLanguage = InputLanguage.FromCulture(new System.Globalization.CultureInfo("en-US"));
-                    label3.Text = "EN";
-                }
-            };*/
