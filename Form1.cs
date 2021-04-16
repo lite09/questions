@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using questions.classes;
+using questions.forms;
 
 namespace questions
 {
@@ -17,6 +18,10 @@ namespace questions
         public RadioButton[] rb = new RadioButton[5];
         public Label[] lb = new Label[5];
         public bool wait = true;
+
+        public Label h2, stat;
+        public result_current_test rct = new result_current_test();
+
         public Form1()
         {
             InitializeComponent();
@@ -30,6 +35,9 @@ namespace questions
             //log.Show();
             //Hide();
 
+            rct.res_cur_test.ForeColor = Color.FromArgb(255, 200, 255, 255);
+            rct.Show(); rct.Hide();
+
             if (!Directory.Exists("data\\tests"))
             {
                 MessageBox.Show("Создаите тесты для тестирования в папке data\\tests");
@@ -37,7 +45,7 @@ namespace questions
                 Close();
             }
             user usr = new user();
-            usr.last_name = "Исмагилов"; usr.first_name = "Кирилл"; usr.par = "Флуньевич";
+            usr.last_name = "Исмагилов"; usr.first_name = "Кирилл"; usr.par = "Флуньевич"; usr.login = "lite";
             functions.load_tests(this, usr);
         }
 

@@ -90,7 +90,7 @@
             // 
             this.tLP_q.BackColor = System.Drawing.Color.Transparent;
             this.tLP_q.ColumnCount = 1;
-            this.tLP_q.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            this.tLP_q.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 134F));
             this.tLP_q.Location = new System.Drawing.Point(171, 145);
             this.tLP_q.Name = "tLP_q";
             this.tLP_q.RowCount = 1;

@@ -59,15 +59,5 @@ namespace questions.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Поиск локализованного ресурса типа System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap Melamine_wood_006 {
-            get {
-                object obj = ResourceManager.GetObject("Melamine-wood-006", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
     }
 }
