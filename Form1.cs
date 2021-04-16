@@ -26,9 +26,9 @@ namespace questions
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
 
-            login log = new login(this);
-            log.Show();
-            Hide();
+            //login log = new login(this);
+            //log.Show();
+            //Hide();
 
             if (!Directory.Exists("data\\tests"))
             {
@@ -36,13 +36,14 @@ namespace questions
 
                 Close();
             }
-
-            //functions.load_tests(this);
+            user usr = new user();
+            usr.last_name = "Исмагилов"; usr.first_name = "Кирилл"; usr.par = "Флуньевич";
+            functions.load_tests(this, usr);
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            Hide();
+            //Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)

@@ -43,15 +43,16 @@ namespace questions
                 return;
             }
 
-            if (users.Exists(it => it.login == textBox1.Text) && users.Exists(it => it.pass == functions.MD5Hash(textBox2.Text)))
+
+            if (users.Exists(it => it.login == textBox1.Text && it.pass == functions.MD5Hash(textBox2.Text)))
             {
+                user usr = users.First(it => it.login == textBox1.Text && it.pass == functions.MD5Hash(textBox2.Text));
                 f1.Show();
-                functions.load_tests(f1);
+                functions.load_tests(f1, usr);
                 Hide();
             }
             else
                 MessageBox.Show("Проверьте логин и пароль");
-
         }
     }
 }

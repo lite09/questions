@@ -99,12 +99,21 @@ namespace questions.classes
 
         public static void Live_test(object ob) {
             object[] inf = ob as object[];
+            double proc = 0, good = 0, num_q = 0;
             List<test> live = (List<test>)inf[0];
             Form1 f1 = (Form1)inf[1];
             f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Show()));
-            //for (int ki = 0; ki < live.Count; ki++)
-            //{
+
+            //  статистика
+            int x = f1.Width, y = f1.Height;
+            Label stat = new Label();
+            stat.Text = "0 - " + live.Count; stat.ForeColor = Color.FromArgb(255, 200, 255, 255);
+            stat.Font = new Font("Times New Roman", 15, FontStyle.Bold); stat.AutoSize = true; stat.BackColor = Color.Transparent;
+            f1.Invoke((MethodInvoker)(() => f1.Controls.Add(stat)));
+            stat.Invoke((MethodInvoker)(() => stat.Location = new Point(Convert.ToInt32(x - stat.Width - x / 36), Convert.ToInt32(y / 9))));
+
             foreach (var q in live) {
+                num_q++;
                 string[] s_q = { q.q_0, q.q_1, q.q_2, q.q_3, q.q_4 };
                 int q_n = s_q.Length;
                 f1.wait = true;
@@ -130,7 +139,9 @@ namespace questions.classes
                 {
 
                     f1.rb[i] = new RadioButton();
-                    f1.rb[i].Dock = DockStyle.Fill;
+                    f1.rb[i].Dock = DockStyle.Right;
+                    //f1.rb[i].Anchor = AnchorStyles.Right;
+                    //f1.rb[i].TextAlign = ContentAlignment.MiddleRight;
                     f1.tLP.Invoke((MethodInvoker)(() => f1.tLP.Controls.Add(f1.rb[i], 0, i)));
 
                     f1.lb[i] = new Label();
@@ -146,17 +157,38 @@ namespace questions.classes
                 while (f1.wait)
                     Thread.Sleep(90);
 
+                //  был ли ответ правильныи
+                for (int i = 0; i < q_n; i++)
+                {
+                    if (f1.rb[i].Checked)
+                        if (q.answer == i.ToString())
+                            good++;
+                }
+
+                //  обновляем статистику
+                proc = Math.Round (good / num_q * 100, 0);
+                stat.Invoke((MethodInvoker)(() => stat.Text = num_q + " - " + live.Count + " : " + proc + "%"));
+                stat.Invoke((MethodInvoker)(() => stat.Location = new Point(Convert.ToInt32(x - stat.Width - x / 36), Convert.ToInt32(y / 9))));
+
             }
     }
 
-        public static void load_tests(Form1 f1)
+        public static void load_tests(Form1 f1, user usr)
         {
+            int x = f1.Width, y = f1.Height;
+
             string path = "data\\tests";
             string []str_paths_tests = Directory.GetFiles(path);
             List<List<test>> tests = get_tests();
 
-            LinkLabel[] lbs = new LinkLabel[str_paths_tests.Length];
-            int x = f1.Width, y = f1.Height;
+            //  ФИО
+            Label fio = new Label();
+            fio.Text = usr.last_name + " " + usr.first_name + " " + usr.par; fio.ForeColor = Color.FromArgb(255, 200, 255, 255);
+            fio.Font = new Font("Times New Roman", 15, FontStyle.Bold); fio.AutoSize = true; fio.BackColor = Color.Transparent;
+            f1.Controls.Add(fio);
+            fio.Location = new Point(Convert.ToInt32(x - fio.Width - x/36), Convert.ToInt32(y / 12));
+
+
 
             Label h2 = new Label(); h2.Text = "Выберите тест"; h2.ForeColor = Color.FromArgb(255, 255, 255, 255);
                 h2.Font = new Font("Times New Roman", 25, FontStyle.Bold); h2.AutoSize = true; h2.BackColor = Color.Transparent;

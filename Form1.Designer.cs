@@ -40,9 +40,9 @@
             this.tLP.BackColor = System.Drawing.Color.Transparent;
             this.tLP.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Single;
             this.tLP.ColumnCount = 2;
-            this.tLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
+            this.tLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 18F));
             this.tLP.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tLP.Location = new System.Drawing.Point(1003, 34);
+            this.tLP.Location = new System.Drawing.Point(34, 145);
             this.tLP.Name = "tLP";
             this.tLP.RowCount = 5;
             this.tLP.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -90,12 +90,12 @@
             // 
             this.tLP_q.BackColor = System.Drawing.Color.Transparent;
             this.tLP_q.ColumnCount = 1;
-            this.tLP_q.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 36F));
-            this.tLP_q.Location = new System.Drawing.Point(1003, 156);
+            this.tLP_q.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 131F));
+            this.tLP_q.Location = new System.Drawing.Point(171, 145);
             this.tLP_q.Name = "tLP_q";
             this.tLP_q.RowCount = 1;
             this.tLP_q.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tLP_q.Size = new System.Drawing.Size(131, 64);
+            this.tLP_q.Size = new System.Drawing.Size(134, 116);
             this.tLP_q.TabIndex = 1;
             // 
             // Form1
