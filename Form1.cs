@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using questions.classes;
 using questions.forms;
@@ -21,6 +16,8 @@ namespace questions
 
         public Label h2, stat;
         public result_current_test rct = new result_current_test();
+        int x = Convert.ToInt32(SystemInformation.VirtualScreen.Width.ToString());
+        int y = Convert.ToInt32(SystemInformation.VirtualScreen.Height.ToString());
 
         public Form1()
         {
@@ -35,8 +32,13 @@ namespace questions
             //log.Show();
             //Hide();
 
+            List<stat> stat = functions.load_stat("data\\results\\results.csv");
+
             rct.res_cur_test.ForeColor = Color.FromArgb(255, 200, 255, 255);
             rct.Show(); rct.Hide();
+            rct.Location = new Point(x / 2 - rct.Width / 2, y / 2 - rct.Height / 2);
+
+            Location = new Point(x / 2 - Width / 2, y / 2 - Height / 2);
 
             if (!Directory.Exists("data\\tests"))
             {

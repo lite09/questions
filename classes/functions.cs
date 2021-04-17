@@ -276,6 +276,36 @@ namespace questions.classes
 				};
 			}
 		}
+
+		public static List<stat> load_stat(string path)
+        {
+			List<stat> stat = new List<stat>();
+			var config = new CsvConfiguration(CultureInfo.InvariantCulture)
+			{
+				Delimiter = ";",
+				HeaderValidated = null,
+				MissingFieldFound = null,
+				Encoding = Encoding.GetEncoding(1251),
+			};
+
+			try
+			{
+				using (var reader = new StreamReader(path, Encoding.GetEncoding(1251)))
+				using (var csv = new CsvReader(reader, config))
+				{
+					var l = csv.GetRecords<stat>();
+					stat = l.ToList();
+				}
+
+			}
+			catch (BadDataException ki)
+			{
+				MessageBox.Show("Ошибка загрузки данных из фаила\r\n" + path);
+				return null;
+			}
+
+			return stat;
+		}
 	}
 }
 
