@@ -58,6 +58,22 @@ namespace questions.classes
 			return hash.ToString();
 		}
 
+		public static void show_stat()
+        {
+            List<stat> stat = load_stat("data\\results\\results.csv");
+			if (stat == null)
+			{
+				MessageBox.Show("Проидите хотядбы один тест");
+
+				return;
+			}
+
+			string[] users = new string[stat.Count];
+            for (int i = 0; i < stat.Count; i++)
+				users[i] = stat[i].login;
+			users = users.Distinct().ToArray();
+		}
+
 		public static List<List<test>> get_tests()
 		{
 			string path = "data\\tests";
@@ -102,6 +118,8 @@ namespace questions.classes
 			object[] inf = ob as object[];
 			double proc = 0, good = 0, num_q = 0;
 			List<test> live = (List<test>)inf[0];
+			//	перемешиваем вопросы
+			live = live.OrderBy(a => Guid.NewGuid()).ToList();
 			Form1 f1 = (Form1)inf[1];
 			f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Show()));
 
@@ -204,7 +222,11 @@ namespace questions.classes
 
 			load_tests(f1, usr);
 
-			f1.Invoke((MethodInvoker)(() => f1.rct.res_cur_test.Text = "Поздравляем " + fio + " с успешно проиденным тестом!"));
+			//	позиционирование окна с результатами теста
+			f1.Invoke((MethodInvoker)(() => f1.rct.Location = new Point(SystemInformation.VirtualScreen.Width / 2 - f1.rct.Width / 2,
+				SystemInformation.VirtualScreen.Height / 2 - f1.rct.Height / 2)));
+
+			f1.Invoke((MethodInvoker)(() => f1.rct.res_cur_test.Text = "Поздравляем " + fio + " с успешно проиденным тестом!\r\n\r\nПравильных ответов: " + proc + "%"));
 			f1.Invoke((MethodInvoker)(() => f1.rct.Show()));
 		}
 
@@ -259,6 +281,8 @@ namespace questions.classes
 
 				lb.Click += (s, il) =>
 				{
+					if (f1.rct != null)
+						f1.rct.Hide();
 					f1.tLP_fn.Hide();
 					f1.tLP.Show();
 
@@ -271,7 +295,8 @@ namespace questions.classes
 						{
 							object []ob = { tests[i], f1, name_of_file_test, usr };
 							ThreadPool.QueueUserWorkItem(Live_test, ob);
-							//Live_test(ob);
+
+							return;
 						}
 				};
 			}

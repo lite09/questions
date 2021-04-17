@@ -14,8 +14,11 @@ namespace questions
 {
     public partial class reg : Form
     {
-        public reg()
+        Form1 f1;
+        public reg(Form1 f1)
         {
+            this.f1 = f1;
+
             InitializeComponent();
         }
 
@@ -23,6 +26,7 @@ namespace questions
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint
             | ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
+            f1.reg = this;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -64,7 +68,7 @@ namespace questions
                     return;
                 }
 
-                File.AppendAllText(path, user);
+                File.AppendAllText(path, user, Encoding.Default);
                 MessageBox.Show("Пользователь " + textBox5.Text + " создан");
 
                 textBox1.Text = textBox2.Text = textBox3.Text = textBox4.Text = textBox5.Text = textBox6.Text = "";

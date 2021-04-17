@@ -18,7 +18,7 @@ namespace questions
 
         private void button2_Click(object sender, EventArgs e)
         {
-            reg rst = new reg();
+            reg rst = new reg(f1);
             rst.Show();
         }
 
@@ -44,6 +44,8 @@ namespace questions
                 user usr = users.First(it => it.login == textBox1.Text && it.pass == functions.MD5Hash(textBox2.Text));
                 f1.Show();
                 functions.load_tests(f1, usr);
+                if (f1.reg != null)
+                    f1.reg.Hide();
                 Hide();
             }
             else

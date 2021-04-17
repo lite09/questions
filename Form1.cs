@@ -10,14 +10,15 @@ namespace questions
 {
     public partial class Form1 : Form
     {
+        public Form reg;
         public RadioButton[] rb = new RadioButton[5];
         public Label[] lb = new Label[5];
         public bool wait = true;
 
         public Label h2, stat;
         public result_current_test rct = new result_current_test();
-        int x = Convert.ToInt32(SystemInformation.VirtualScreen.Width.ToString());
-        int y = Convert.ToInt32(SystemInformation.VirtualScreen.Height.ToString());
+        int x = SystemInformation.VirtualScreen.Width;
+        int y = SystemInformation.VirtualScreen.Height;
 
         public Form1()
         {
@@ -28,11 +29,11 @@ namespace questions
         {
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
 
-            //login log = new login(this);
-            //log.Show();
-            //Hide();
+            login log = new login(this);
+            log.Show();
+            Hide();
 
-            List<stat> stat = functions.load_stat("data\\results\\results.csv");
+            //functions.show_stat();
 
             rct.res_cur_test.ForeColor = Color.FromArgb(255, 200, 255, 255);
             rct.Show(); rct.Hide();
@@ -46,14 +47,14 @@ namespace questions
 
                 Close();
             }
-            user usr = new user();
-            usr.last_name = "Исмагилов"; usr.first_name = "Кирилл"; usr.par = "Флуньевич"; usr.login = "lite";
-            functions.load_tests(this, usr);
+            //user usr = new user();
+            //usr.last_name = "Исмагилов"; usr.first_name = "Кирилл"; usr.par = "Флуньевич"; usr.login = "lite";
+            //functions.load_tests(this, usr);
         }
 
         private void Form1_Shown(object sender, EventArgs e)
         {
-            //Hide();
+            Hide();
         }
 
         private void button1_Click(object sender, EventArgs e)
