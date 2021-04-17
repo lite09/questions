@@ -58,20 +58,61 @@ namespace questions.classes
 			return hash.ToString();
 		}
 
-		public static void show_stat()
+		struct usr { public string user; public string fio; public int percent; };
+		public static void show_stat(stats form_stat)
         {
-            List<stat> stat = load_stat("data\\results\\results.csv");
+			form_stat.fLP.Controls.Clear();
+
+
+			List<stat> stat = load_stat("data\\results\\results.csv");
 			if (stat == null)
 			{
-				MessageBox.Show("Проидите хотядбы один тест");
+				MessageBox.Show("Проидите хотя бы один тест");
 
 				return;
 			}
 
+			
 			string[] users = new string[stat.Count];
             for (int i = 0; i < stat.Count; i++)
 				users[i] = stat[i].login;
 			users = users.Distinct().ToArray();
+
+			List<usr> struct_users = new List<usr>();
+			usr tmp_user = new usr();
+            foreach (string user in users)
+            {
+				List<stat> s = stat.FindAll(a => a.login == user);
+				int sum = 0, percent = 0;
+                foreach (var test in s)
+					sum += Convert.ToInt32(test.percent);
+
+				percent = sum / s.Count;
+				tmp_user.user = user; tmp_user.percent = percent; tmp_user.fio = s[0].fio;
+				struct_users.Add(tmp_user);
+            }
+
+			//	соритровка по кол-ву баллов
+			struct_users.Sort((a, b) => (b.percent.CompareTo(a.percent)));
+
+            foreach (usr user in struct_users)
+            {
+                Label lb = new Label();
+                lb.AutoSize = true;
+                lb.Anchor = AnchorStyles.None;
+                lb.Dock = DockStyle.Fill;
+                //lb.TextAlign = ContentAlignment.MiddleCenter;
+                lb.TextAlign = ContentAlignment.MiddleLeft;
+                lb.ForeColor = Color.FromArgb(255, 200, 255, 255);
+                lb.Font = new Font("Times New Roman", 15, FontStyle.Bold);
+
+                lb.Text = "\r\n" + user.fio + ": " + user.percent + "%\r\n";
+                form_stat.fLP.WrapContents = false;
+                form_stat.fLP.Controls.Add(lb);
+            }
+			// Sort((a, b) => (a.ToString()[0].CompareTo(b.ToString()[0])));
+
+			form_stat.Show();
 		}
 
 		public static List<List<test>> get_tests()
@@ -119,7 +160,15 @@ namespace questions.classes
 			double proc = 0, good = 0, num_q = 0;
 			List<test> live = (List<test>)inf[0];
 			//	перемешиваем вопросы
+			int select_q = 0;
+			try { select_q = Convert.ToInt32(live[0].quantity_questions); }
+            catch {}
+
 			live = live.OrderBy(a => Guid.NewGuid()).ToList();
+
+			if (select_q > 0 && select_q < live.Count)
+				live = live.Take(select_q).ToList();
+
 			Form1 f1 = (Form1)inf[1];
 			f1.tLP_q.Invoke((MethodInvoker)(() => f1.tLP_q.Show()));
 
@@ -313,18 +362,15 @@ namespace questions.classes
 				Encoding = Encoding.GetEncoding(1251),
 			};
 
-			try
-			{
+			if (File.Exists(path)) {
 				using (var reader = new StreamReader(path, Encoding.GetEncoding(1251)))
 				using (var csv = new CsvReader(reader, config))
 				{
 					var l = csv.GetRecords<stat>();
 					stat = l.ToList();
 				}
-
 			}
-			catch (BadDataException ki)
-			{
+            else {
 				MessageBox.Show("Ошибка загрузки данных из фаила\r\n" + path);
 				return null;
 			}

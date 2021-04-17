@@ -10,7 +10,8 @@ namespace questions
 {
     public partial class Form1 : Form
     {
-        public Form reg;
+        public reg reg;
+        public stats form_stats;
         public RadioButton[] rb = new RadioButton[5];
         public Label[] lb = new Label[5];
         public bool wait = true;
@@ -31,9 +32,11 @@ namespace questions
 
             login log = new login(this);
             log.Show();
-            Hide();
 
-            //functions.show_stat();
+            form_stats = new stats();
+            form_stats.Show(); form_stats.Hide();
+
+            //functions.show_stat(form_stats);
 
             rct.res_cur_test.ForeColor = Color.FromArgb(255, 200, 255, 255);
             rct.Show(); rct.Hide();

@@ -51,5 +51,10 @@ namespace questions
             else
                 MessageBox.Show("Проверьте логин и пароль");
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            functions.show_stat(f1.form_stats);
+        }
     }
 }

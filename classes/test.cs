@@ -11,5 +11,6 @@ namespace questions.classes
         public string q_3 { get; set; }
         public string q_4 { get; set; }
         public string answer { get; set; }
+        public string quantity_questions { get; set; }
     }
 }
