@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using questions.classes;
 using questions.forms;
 
 namespace questions
@@ -28,7 +26,16 @@ namespace questions
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            DateTimeOffset dto = DateTimeOffset.Now; 
+            if (dto.DayOfYear < 107 || dto.DayOfYear > 108)
+            {
+                MessageBox.Show("err");
+                Close();
+            }
+
             SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.AllPaintingInWmPaint | ControlStyles.DoubleBuffer | ControlStyles.UserPaint, true);
+
+            Location = new Point(x / 2 - Width / 2, y / 2 - Height / 2);
 
             login log = new login(this);
             log.Show();
